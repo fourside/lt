@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>vim editor</title>
+<script src="jquery.min.js"></script>
+<script src="fathom.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('#presentation').fathom();
+    });
+</script>
+<style type="text/css">
+div.slide {
+    -webkit-box-shadow: 0 0 50px #c0c0c0;
+    -moz-box-shadow: 0 0 50px #c0c0c0;
+    box-shadow: 0 0 50px #c0c0c0;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box; 
+    background: #FFF;
+    height: 660px;
+    width: 900px;
+    padding: 20px;
+    margin: 20px;
+    position: relative;
+}
+p, li{
+    font-size: 3em;
+    margin-left: 0.5em;
+}
+li {
+    padding: 10px; 
+}
+h1 {
+    margin-top: 25%;
+    text-align:center;
+    font-size: 6em;
+}
+h2 {
+    font-size: 4em;
+}
+pre {
+    font-family: 'VL Gothic';
+    font-size: 5em;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="print.css" media="print"> 
+</head>
+<body>
+
+<div id="presentation">
+    <div class="slide">
+        <h1>VIMの話をします</h1>
+    </div>
+    <div class="slide">
+        <h2>自己紹介</h2>
+        <ul>
+            <li>江口和宏</li>
+            <li>rubyで何か作ってます</li>
+            <li>https://github.com/fourside</li>
+            <li>http://163.43.165.158:8080/</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>今日話すこと</h2>
+        <ul>
+            <li>vimの紹介</li>
+            <li>IDEとしてのvim</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>vimってなんですか</h2>
+        <ul>
+            <li>エディタです</li>
+            <li>viクローン</li>
+            <li>linuxにだいたい標準で入ってる</li>
+            <li>windowsでも使えるよ</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>他のエディタとの違いは?</h2>
+        <ul>
+            <li>モードを切り替えながら編集するよ</li>
+            <li>キーバインドが変</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>vimのモード</h2>
+        <ul>
+            <li>主に使うのはふたつだけ</li>
+            <ul><li>normal mode ... 編集</li>
+                <li>insert mode ... 文字の入力</li>
+                <li>オマケ command mode  ... コマンドの実行</li></ul>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>モードの恩恵</h2>
+        <ul>
+            <li>文字入力をモードとして切り分けることで、修飾キーを使わずにキーを組み合わせることができる</li>
+            <li>エディタの機能がキーボードでまかなえる!</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>mode間の行き来</h2>
+        <ul>
+            <li>a, iでinsert modeに。</li>
+            <li>エスケープキーでnormal modeに。</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>エスケープキーは遠い！</h2>
+        <ul>
+            <li>Ctrl-[ を押そう</li>
+            <li>他の遠いキーも別のキーがあるよ(vimとは関係ないけど)</li>
+            <ul><li>Enter => Ctrl-M</li>
+                <li>BS    => Ctrl-H</li></ul>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>変なキーバインド</h2>
+        <ul>
+            <li>カーソル移動がjkhl</li>
+            <ul><li>h j k l</li>
+                <li>←↓↑→</li></ul>
+            <li>とっつきにくい</li>
+            <li>遠く離れたカーソルキーを押さなくていい！</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>慣れるには</h2>
+        <ul>
+            <li>vimtutorコマンド</li>
+            <ul><li>vimをインストールするとついてくるコマンド</li>
+                <li>テキストの指示に従って、そのテキストを編集していく</li>
+                <li>windows(kaoriya版)なら、:Tutorial</li></ul>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>ちょっと便利なこと</h2>
+        <ul>
+            <li>gf</li>
+            <li>テキストオブジェクト</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>gfコマンド</h2>
+        <ul>
+            <li>カーソル位置にファイル名があるとき、そのファイルが開ける</li>
+            <li>他のファイルをインクルードしてるとき便利</li>
+            <ul><li>httpd.conf</li>
+                <li>:h gf</li></ul>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>テキストオブジェクト</h2>
+        <ul>
+            <li>ある範囲の文字列をオブジェクトとみなして、そいつに対する操作をする</li>
+            <ul><li>puts "hello, #{you^rname}"</li>
+                <li>^がカーソル位置だとして、di{と打つと...</li>
+                <li>puts "hello, #{^}"</li></ul>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>「di{」</h2>
+        <ul>
+            <li>dで、デリート</li>
+            <li>iで、テキストオブジェクトの中(inner)</li>
+            <li>{で、テキストオブジェクトの指定</li>
+            <li>「di{」は、「delete inner {.」</li>
+            <li>:h text-objects</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>vim as your IDE</h2>
+        <ul>
+            <li>個人的な背景</li>
+            <li>IDEに近づけるための機能</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>背景</h2>
+        <ul>
+            <li>vimで書いたphpをコミットしたら、シンタックスエラーが起きていて、隣の人に怒られた</li>
+            <li>「eclipse(pdt)があるのだから、それで書くべきだ」</li>
+            <li>おっしゃるとおり</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>vimで開発するなら?</h2>
+        <ul>
+            <li>vimをIDEに近づける</li>
+            <ul><li>補完</li>
+            <li>自動コンパイル</li>
+            <li>関数ジャンプ</li>
+            <li>エディタから実行</li></ul>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>補完</h2>
+        <ul>
+            <li>デフォルトでいろいろ種類がある</li>
+            <ul><li>バッファからの補完</li>
+            <li>ファイル名補完</li>
+            <li>便利なプラグインがある</li>
+                <ul><li>neocomplecache</li></ul>
+            </ul>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>自動コンパイル</h2>
+        <ul>
+            <li>保存時にコンパイルしてくれる機能</li>
+            <ul><li>スクリプト系だとシンタックスチェック</li>
+            <li>エラー行をリスト表示してくれる</li>
+            <li>少し設定が必要</li>
+            <li>:h make</li></ul>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>関数ジャンプ</h2>
+        <ul>
+            <li>関数の定義元にジャンプする</li>
+            <ul><li>ctagsでタグファイルを作って、場所をvimに教える</li>
+            <li>:h tags</li>
+            <li>taglist.vimプラグインが便利</li></ul>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>エディタからの実行</h2>
+        <ul>
+            <li>今開いているバッファの中身を実行したい</li>
+            <ul><li>:!ruby %</li>
+                <li>quickrun.vimというプラグインが便利</li>
+                <ul><li>ファイルタイプから実行するコマンドを決定してくれる</li></ul>
+            </ul>
+        </ul>
+    </div>
+    <div class="slide">
+        <h1>:wq</h1>
+        <p>以上です</p>
+    </div>
+</div>
+</body>
+</html>
