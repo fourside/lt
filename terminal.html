@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>terminal環境について</title>
+<script src="jquery.min.js"></script>
+<script src="fathom.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('#presentation').fathom();
+    });
+</script>
+<style type="text/css">
+div.slide {
+    -webkit-box-shadow: 0 0 50px #c0c0c0;
+    -moz-box-shadow: 0 0 50px #c0c0c0;
+    box-shadow: 0 0 50px #c0c0c0;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box; 
+    background: #FFF;
+    height: 660px;
+    width: 900px;
+    padding: 20px;
+    margin: 20px;
+    position: relative;
+}
+p, li{
+    font-size: 3em;
+    margin-left: 0.5em;
+}
+li {
+    padding: 10px; 
+}
+h1 {
+    margin-top: 25%;
+    text-align:center;
+    font-size: 6em;
+}
+h2 {
+    font-size: 4em;
+}
+pre {
+    font-family: 'VL Gothic';
+    font-size: 5em;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="print.css" media="print"> 
+</head>
+<body>
+
+<div id="presentation">
+    <div class="slide">
+        <h1>ターミナル環境を整えて便利に暮らそう</h1>
+    </div>
+    <div class="slide">
+        <h2>今日話すこと</h2>
+        <ul>
+            <li>ターミナル環境で便利なやつ</li>
+            <ul><li>GNU screen</li>
+            <li>zsh</li>
+            <li>peco</li></ul>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>なぜ今この話？</h2>
+        <ul>
+            <li>screenが若干うけたので…</li>
+            <li>流行ってるのツールを使ってみたので…</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>GNU screen</h2>
+        <ul>
+            <li>端末マルチプレクサ</li>
+            <li>再接続できる</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>端末マルチプレクサ</h2>
+        <ul>
+            <li>alt + tabしなくてよい</li>
+            <li>画面分割してログをtailしながら作業できる</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>次の日に続きができる</h2>
+        <ul>
+            <li>接続が切れても、状態が保存されている</li>
+            <li>帰宅時にexitしなくてよい</li>
+            <li>※os rebootしたら消えます</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>zsh</h2>
+        <ul>
+            <li>補完が便利</li>
+            <li>historyの共有</li>
+            <li>cdの拡張</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>補完が便利</h2>
+        <ul>
+            <li>apt-get in^stall r^uby</li>
+            <li>オプションの展開(tar, configure)</li>
+            <li>historyの前方一致検索</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>historyの共有</h2>
+        <ul>
+            <li>screenと相性いい</li>
+            <ul><li>bashはexitしたとき、.bash_historyにflushされる</li>
+            <li>zshは即時</li></ul>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>peco</h2>
+        <ul>
+            <li>最近流行った</li>
+            <li>"Simplistic interactive filtering tool"</li>
+            <li>percolのgo実装</li>
+            <li>バイナリ一個で動作する</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>デモ</h2>
+        <ul>
+            <li>history</li>
+            <li>process kill</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h1>以上です</h1>
+    </div>
+</div>
+</body>
+</html>
+
