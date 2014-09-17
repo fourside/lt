@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<script src="jquery.min.js"></script>
+<script src="fathom.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('#presentation').fathom();
+    });
+</script>
+<style type="text/css">
+div.slide {
+    -webkit-box-shadow: 0 0 50px #c0c0c0;
+    -moz-box-shadow: 0 0 50px #c0c0c0;
+    box-shadow: 0 0 50px #c0c0c0;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box; 
+    background: #FFF;
+    height: 660px;
+    width: 900px;
+    padding: 20px;
+    margin: 20px;
+    position: relative;
+}
+p, li{
+    font-size: 3em;
+    margin-left: 0.5em;
+}
+li {
+    padding: 10px; 
+}
+h1 {
+    margin-top: 25%;
+    text-align:center;
+    font-size: 6em;
+}
+h2 {
+    font-size: 4em;
+}
+pre {
+    font-family: 'VL Gothic';
+    font-size: 5em;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="print.css" media="print"> 
+</head>
+<body>
+
+<div id="presentation">
+    <div class="slide">
+        <h1>AngularJS</h1>
+    </div>
+    <div class="slide">
+        <h2>今日話すこと</h2>
+        <ul>
+            <li>AngularJSの紹介</li>
+            <ul><li></li>
+            <li></li>
+            <li></li></ul>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>なぜこの話？</h2>
+        <ul>
+            <li>前のイテレーションで触って楽しかったので</li>
+            <li>最初にコードをみて意味がわからなかったので</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>話すこと</h2>
+        <ul>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>AngularJS is 何</h2>
+        <ul>
+            <li>JSのフレームワーク</li>
+            <li>googleのコミュニティが開発してる</li>
+            <li>MVW</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>MVW is 何</h2>
+        <ul>
+            <li>Model View Whatever</li>
+            <li>モデルとビューと何だっていい</li>
+            <li>クライアントサイドでのMVC</li>
+            <li>JQueryのようなJSの拡張ではない</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>いいところ</h2>
+        <ul>
+            <li>JSのみで開発できるっちゃできる</li>
+                <ul><li>xhrするときはサーバ必要…</li></ul>
+            <li>テンプレートがほぼHTML(ロジックが入り組まないようになっている)</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>AngularJSの登場人物</h2>
+        <ul>
+            <li>View(template)</li>
+            <li>Controllere</li>
+            <li>$scope</li>
+            <li>DI</li>
+            <li>双方向バインディング</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>View(template)</h2>
+        <ul>
+            <li>ほぼHTML</li>
+            <li>DOMの操作はディレクティブに書く</li>
+            <ul><li>ng-xxxみたいなやつのこと</li></ul>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>Controller</h2>
+        <ul>
+            <li>$scopeのセットアップ</li>
+            <li>ここに色々書いてしまいがち</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>$scope</h2>
+        <ul>
+            <li>Contollerが作られると1個ついてくる</li>
+            <li>ViewとModelを繋ぐもの</li>
+            <li>まず$rootScopeがあって、入れ子構造になる</li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2><DI/h2>
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h2>双方向バインディング</h2>
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div class="slide">
+        <h1>以上です</h1>
+    </div>
+</div>
+</body>
+</html>
+
