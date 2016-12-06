@@ -1,0 +1,174 @@
+
+# 簡単に画面をつくりたい
+
+## 時代の潮流
+- ビューライブラリ
+    - React.js
+    - Vue.js
+
+## 周辺ツールのしんどさ
+- 各npmの扱い
+    - bable, browserify, webpack...
+    - どんな風が一番ナイス
+
+## 文字列 + innerHTML
+- 原始時代に戻るのもつらい
+```javascript
+foo = "<h3>" + bar[i]['title'] + "</h3>";
+foo += "<button onclick='edit(" + bar[i]["id"] + ")'>edit</button>";
+...
+$("#response").html(foo);
+```
+
+## テンプレートエンジン
+- htmlを文字列で組み立てる苦行からの解放
+    - micro template[http://ejohn.org/blog/javascript-micro-templating/]
+    - mustache.js[https://github.com/janl/mustache.js/]
+
+## mustache.js使い方
+```javascript
+var obj = {
+  "list": [
+    { "name": "john" },{ "name": "paul" }, { "name": "george" }
+  ]
+};
+$("#view").html(Mustache.render(templateString, obj));
+```
+
+## mustache.js使い方
+```html
+<!-- templateStringに入る文字列-->
+<ul>
+{{#list}}
+  <li>{{name}}</li>
+{{\list}}
+</ul>
+```
+
+## テンプレートをどう使いたい？
+- ヘッダ、フッタ、メニューはindex.htmlに
+- 中央らへんに各画面のテンプレートを読み込みたい
+- 動的に読み込む。事前のビルドなし
+- 画面ごとにヘッダやフッタを読み込むのはイヤ
+
+## 実装は？
+- onhashchange
+    - URLのフラグメント識別子が変更されるときのイベントハンドラ
+- (load external templates)[https://github.com/janl/mustache.js/#load-external-templates]
+    - ajaxでmustacheテンプレートを読み込むやり方
+
+## できそうな感触
+- できた
+- (template_router_sample)[https://github.com/fourside/template_router_sample]
+
+## できたやつの使い方
+```javascript
+(new Router()).set("ルーティング定義", {
+    template : "テンプレートファイル名",
+    callback: function(
+            第一引数：テンプレートにバインドするオブジェクト, 
+            第二引数：URLフラグメントから取得したパラメータオブジェクト
+        ) {
+        // テンプレート読み込み前に行う処理
+        // HTTPレスポンスに含まれない固定のパラメータはここで設定
+        bindings.title = "一覧";
+        // HTTPレスポンスがテンプレートにバインドされる
+        return $.ajax("/api/path", {method: "get"});
+        // APIを2個叩くとき
+        // return Promise.all($.ajax("/api/path1"), $.ajax("/api/path2"));
+    }
+}).run();
+```
+
+## できたやつの使い方
+- ルーティング定義
+    - URLフラグメントの値
+    - ブラウザがlocalhost/#listに遷移する
+    - ルーティング定義「list」が選ばれる
+
+## 得られた知見
+- ライブラリを作るとJS力が中級くらいに高まる
+    - 使う側は俺俺ライブラリの学習コストは払いたくないと思う
+    - 人柱に感謝
+
+### 得られたJS力
+- OOPぽい書き方
+- thisの扱い
+- $.ajaxの戻り値はPromise(ぽいもの)
+
+### OOPぽい書き方
+- 最初の実装
+    - グローバルなオブジェクトのプロパティに関数を与える
+    - ライブラリ利用者にグローバル変数を強いる
+    - 既に同名のグローバル変数を使っていたら…
+    - 使う側がインスタンスを作れるようにしたらよい
+        - なので本来OOPが解決する問題ではない
+
+```javascript
+// ライブラリ側
+var app = {};
+app.hoge = function() {}; // hoge関数
+```
+
+## OOPぽい書き方
+
+### OOPぽい書き方
+- こう直した
+    - new演算子とprototype
+    - ES2015からclass構文が使えるので、近い将来遺物に
+
+```javascript
+// ライブラリ側
+function Router() { // 慣例的にCamelCase
+    // new時にここが実行される
+};
+Router.prototype.hoge = function() {
+    // Routerをnewして出来たオブジェクト全てにhoge関数が生える
+};
+```
+```
+// ユーザ側
+function() {
+ (new Router())
+     .set(...)
+     .run();
+}();
+```
+
+## thisの扱い
+
+### thisに起こること
+- 関数の中でthisが使われているとき
+- その関数の呼び出し方で、thisが参照するものが変わる
+- 恐ろしい
+- 普通に使ってる分には気にしなくてよい
+
+### 関数呼び出し方パターン
+- トップレベルのfunction呼び出し
+- メソッド呼び出し
+- コンストラクタ呼び出し
+- call/applyによる呼び出し
+    - こいつだけ注意
+    - windowのイベントハンドラもこれ（のはず）
+
+### thisの正体
+- 関数呼び出し時に、暗黙に渡される引数
+- call/applyの場合
+    - 第一引数にthisとして参照されるオブジェクトを渡す
+
+
+### $.ajaxの戻り値はPromise(ぽいもの)
+- Promiseとは
+    - 非同期処理を簡単に書けるインターフェイス
+    - [http://azu.github.io/promises-book/]
+    - JavaのFutureぽいもの
+```javascript
+var promise = $ajax("/api/list");
+promise.done(function(data) {
+    // 成功したとき
+}).fail(function(error)) {
+    // 失敗したとき
+};
+```
+
+
