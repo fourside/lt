@@ -1,0 +1,152 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-slide-content > ul { font-size: 140%}
+    </style>
+    <title>Effective Java 2nd 読書会 - 11</title>
+</head>
+<body>
+    <textarea id="source">
+
+class: center, middle
+# 11. clone を注意してオーバーライドする
+
+---
+## 先に結論
+- コピーしたかったら別の方法がいい
+    - コピーコンストラクタ、コピーファクトリ
+- ただ広く使われているから仕組みを理解する価値はある
+
+---
+## Cloneable インタフェース
+- ミックスイン
+- 複製してもいいことを示すが失敗してる
+
+---
+## 失敗とは
+- Cloneableはcloneメソッドを持たない
+    - Objectが持ってる
+        - protectedだから呼べるかどうか分からん
+
+---
+## 使うには
+- Cloneableを実装して、cloneをpublicでオーバーライド
+    - 実装しないと例外が飛ぶ
+- cloneメソッドの一般契約があるが脆弱(flaw)
+- 書かれてない規約もある
+
+---
+## javadocの規約
+- オブジェクトのコピーってだいたいこんなでしょ
+    - x.clone() != x (同一ではない)
+    - x.clone().getClass() == x.getClass()
+    - x.clone().equals(x) (同値である)
+- でも守らなくてもよい
+- 普通は新しいインスタンスを生むけど、コンストラクタは呼ばれない
+
+---
+## 「コンストラクタは呼ばれない」
+- 厳しい
+- finalなクラスなら
+    - コンストラクタを呼ぶ実装にできる
+- finalじゃないなら
+    - super.clone()を返す
+        - 継承のツリーにあるクラス全部で同様に実装してる前提
+
+---
+## x.clone().getClass() == x.getClass() は脆弱
+- (話のつながりがみえない)
+- super.clone() はsuperの型になるからね
+    - (疑問)実際のインスタンスはx？ super.cloneなのに？
+
+---
+## オーバーライドしたclone()の戻り値
+- 共変戻り値型
+- もとのObject型にしなくてよい
+- ライブラリ側でできることはクライアントにさせない
+
+---
+## Stackの例
+- 参照型のフィールドを持っている場合
+    - コピー元とコピー先で共有されてしまう
+        - フィールドもcloneする
+        - finalなフィールドだと当然ダメ
+
+---
+## リンクリストの例
+- フィールドのオブジェクトが、参照型のフィールドを持っている場合
+    - 再起呼び出し
+    - 素直なループ
+    - 内部で独自に定義したAPI(ex. put)
+        - finalかprivateであるべき
+---
+## 最後の方法
+- 内部フィールドを操作するメソッドを呼ぶこと
+- 直接複製するほど早くない
+
+---
+## CloneNotSupportedException
+- throws宣言を消すべき
+    - 使いやすくなるから
+    - ただし継承される前提のオーバーライドなら、Object.clone()を真似るべき
+---
+
+## スレッドセーフなクラス
+- synchronizedつけるようにする
+
+---
+## Cloneable実装するときまとめ
+- clone()はpublicにする
+- 戻り値はそのクラス自身の型にする
+- super.clone()を呼んで、参照型フィールドを修正
+    - 基本型や不変オブジェクトならしなくていい
+        - 例外）IDや生成時刻を示す場合
+---
+
+## やる必要ある？
+
+---
+## コピーするよい方法
+- コピーコンストラクタ
+    - public Yum(Yum yum) {}
+- コピーファクトリ
+    - public static Yum newInstance(Yum yum) {}
+
+---
+## よいところ
+- 強制されない、文書化もされてない危うげなルールを守る必要がない
+- finalなフィールドがあっても大丈夫
+- チェック例外もないしキャストも発生しない
+- インタフェースの型を受け取ることができる
+    - ex. Collection/Mapのコンストラクタ
+
+---
+## 見つけたもの
+- (Why is Cloneable not deprecated? - Stack Overflow)[https://stackoverflow.com/questions/26398951/why-is-cloneable-not-deprecated]
+- (JDK-4098033 : Cloneable doesn't define .clone)[http://bugs.java.com/bugdatabase/view_bug.do?bug_id=4098033]
+    - ドキュメントを修正する
+    - Cloneableはそのままにしておく
+
+
+
+
+    </textarea>
+    <script src="remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+</body>
+</html>
+
