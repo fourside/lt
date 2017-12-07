@@ -25,26 +25,28 @@ class: center, middle
 ---
 ## 先に結論
 - コピーしたかったら別の方法がいい
-    - コピーコンストラクタ、コピーファクトリ
-- ただ広く使われているから仕組みを理解する価値はある
+    - コピーコンストラクタ
+    - コピーファクトリ
+- 広く使われているから仕組みを理解しとこう
 
 ---
 ## Cloneable インタフェース
 - ミックスイン
-- 複製してもいいことを示すが失敗してる
+- 複製してもいいことを示す
+- 残念な感じ
 
 ---
-## 失敗とは
+## 残念？
 - Cloneableはcloneメソッドを持たない
     - Objectが持ってる
-        - protectedだから呼べるかどうか分からん
+        - protectedだから呼べる保証はない
 
 ---
-## 使うには
+## 正しく使うには
 - Cloneableを実装して、cloneをpublicでオーバーライド
-    - 実装しないと例外が飛ぶ
+    - implements しないで呼ぶと例外が飛ぶ
 - cloneメソッドの一般契約があるが脆弱(flaw)
-- 書かれてない規約もある
+- ドキュメントにない規約もある
 
 ---
 ## javadocの規約
@@ -52,7 +54,7 @@ class: center, middle
     - x.clone() != x (同一ではない)
     - x.clone().getClass() == x.getClass()
     - x.clone().equals(x) (同値である)
-- でも守らなくてもよい
+        - でも絶対じゃないよ
 - 普通は新しいインスタンスを生むけど、コンストラクタは呼ばれない
 
 ---
@@ -82,22 +84,23 @@ class: center, middle
     - コピー元とコピー先で共有されてしまう
         - フィールドもcloneする
         - finalなフィールドだと当然ダメ
+            - つらい
 
 ---
-## リンクリストの例
+## リンクトリストの例
 - フィールドのオブジェクトが、参照型のフィールドを持っている場合
     - 再起呼び出し
     - 素直なループ
-    - 内部で独自に定義したAPI(ex. put)
-        - finalかprivateであるべき
 ---
 ## 最後の方法
 - 内部フィールドを操作するメソッドを呼ぶこと
+    - ex. put
+    - finalかprivateであるべき
 - 直接複製するほど早くない
 
 ---
 ## CloneNotSupportedException
-- throws宣言を消すべき
+- オーバーライドするときに、throws宣言を消すべき
     - 使いやすくなるから
     - ただし継承される前提のオーバーライドなら、Object.clone()を真似るべき
 ---
@@ -114,14 +117,20 @@ class: center, middle
         - 例外）IDや生成時刻を示す場合
 ---
 
+class: center, middle
 ## やる必要ある？
 
 ---
 ## コピーするよい方法
 - コピーコンストラクタ
-    - public Yum(Yum yum) {}
+```java
+    public Yum(Yum yum) {}
+```
+
 - コピーファクトリ
-    - public static Yum newInstance(Yum yum) {}
+```java
+    public static Yum newInstance(Yum yum) {}
+```
 
 ---
 ## よいところ
@@ -133,16 +142,15 @@ class: center, middle
 
 ---
 ## 見つけたもの
-- (Why is Cloneable not deprecated? - Stack Overflow)[https://stackoverflow.com/questions/26398951/why-is-cloneable-not-deprecated]
-- (JDK-4098033 : Cloneable doesn't define .clone)[http://bugs.java.com/bugdatabase/view_bug.do?bug_id=4098033]
+- [Why is Cloneable not deprecated? - Stack Overflow](https://stackoverflow.com/questions/26398951/why-is-cloneable-not-deprecated)
+- [JDK-4098033 : Cloneable doesn't define .clone](http://bugs.java.com/bugdatabase/view_bug.do?bug_id=4098033)
     - ドキュメントを修正する
     - Cloneableはそのままにしておく
-
-
+        - ということに決まったそうです
 
 
     </textarea>
-    <script src="remark-latest.min.js">
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
     </script>
     <script>
       var slideshow = remark.create();
