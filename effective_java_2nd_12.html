@@ -24,15 +24,55 @@ class: center, middle
 
 ---
 ## Comparable インタフェース
-- compareTo メソッドひとつを持つ
+- `compareTo` メソッドひとつを持つ
 - ジェネリッククラス
 - 自然な順序を持つことを意味する
 
+```java
+public interface Comparable<T> {
+    public int compareTo(T o);
+}
+```
 ---
 ## 一般契約
+- 対称性 
+    - `sgn(x.compareTo(y)) == sgn(y.compareTo(x))`
+- 推移性 
+    - `(x.compareTo(y) > 0 && y.compareTo(z) > 0)` なら
+        - `x.compareTo(z) > 0`
+    - `x.compareTo(y) == 0` なら
+        - `sgn(x.compareTo(z)) == sgn(y.compareTo(z))`
 
 ---
+## 一般契約
+- 必須じゃないけど推奨
+    - `(x.compareTo(y) == 0) == (x.equals(y))`
+    - 破ると「equalsと一致しない自然な順序を持つ」
 
+---
+## eqaulsと違うところ
+- `class` を超えなくていい
+    - 違うインスタンスが来たら `ClassCastException` 投げていい
+
+---
+## 守らないと
+- ソートが壊れる
+    - `TreeSet, TreeMap, Collections/Arrays` のメソッド
+
+---
+##「equalsと一致している/矛盾している」
+- `(x.compareTo(y) == 0) == (x.equals(y))` かどうか
+- ex. BigDecimal
+    - `new BigDecimal("1.0")`と`new BigDecimal("1.00")`
+
+---
+## compareTo 実装例
+- 基本型は `<, >` を使う
+- ただし`float, double`は`Float.compare, Double.compare`を使う
+- 複数フィールドを持っている`Comparable`の場合
+    - 意味の強い順に比較していく
+- 比較演算子を使わず、減算結果を使うテクニック
+    - `int`のオーバーフローしないように注意
 
     </textarea>
     <script src="https://remarkjs.com/downloads/remark-latest.min.js">
